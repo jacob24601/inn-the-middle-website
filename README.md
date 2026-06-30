@@ -1,60 +1,49 @@
-# Inn The Middle — Design System
+# Inn The Middle — website
 
-This folder was exported from [Relume](https://www.relume.io) on 2026-06-30. The below instructions are for any LLM Agent interacting with these files.
+A Next.js site for Inn The Middle, 125 Station Road, Langley Mill NG16 4DU.
 
-## IMPORTANT - Workflow steps
+## Run locally
 
-1. Before using other tools, **copy all the files in this local folder, including subfolders, to a "/reference" folder in the current project**
-2. Read **the entire DESIGN.md** — it contains every design token (colors, typography, radii, schemes) as YAML.
-3. Read sitemap.md to learn the page structure, section order, and which color scheme each section uses.
-4. Use the React components in `react/` as your starting implementation
-5. Read assets.md for the exact placement of logos, images, and SVGs.
+```bash
+npm install
+npm run dev
+```
 
-## Goals
+Then open http://localhost:3000
 
-1. Recreate the design system in DESIGN.md exactly — every token, every scheme.
-2. Build a landing page using the sitemap and components provided that perfectly matches `homepage/full.png` and the per-section screenshots in `homepage/` — same components, same order, same schemes, same images. Place it at the root of your project so it is easy to find.
+## Deploy
 
-## Folder contents
+This is a standard Next.js app, so it deploys to any Next.js-compatible host
+with no extra configuration.
 
-- DESIGN.md — design tokens (read first)
-- sitemap.md — page structure, section order, scheme assignments
-- assets.md — logo, image, and SVG placement
-- homepage/full.png — full-page homepage screenshot for layout context
-- homepage/{NN}-{section}.png — per-section homepage screenshots, higher detail than the full-page image
-- react/globals.css — design tokens as CSS custom properties
-- react/ — pre-styled component source files
-- logo/ — light and dark logo files
-- images/ — project images
-- svgs/ — inline SVGs from the homepage
-- fonts/ — Google Font woff2 files
+### Vercel (recommended, free tier available)
 
-## Rules
+1. Push this folder to a GitHub repository.
+2. Go to https://vercel.com, sign in, and click "Add New Project".
+3. Import the repository — Vercel auto-detects Next.js and deploys it.
+4. Add your custom domain under Project Settings → Domains.
 
-Do:
+### Netlify
 
-- Reference design tokens via CSS custom properties from `react/globals.css` — never hardcode colors, font sizes, or radii.
-- Use `react/<component>.jsx` as your starting point when a section has one.
-- Apply the scheme CSS class on each section as specified in `sitemap.md`.
-- Use `logo/logo-light.svg` on light backgrounds and `logo/logo-dark.svg` on dark backgrounds.
-- Load fonts locally with `@font-face` from the woff2 files in `fonts/`.
-- Use the logos, images, and SVGs provided in this bundle at the locations specified in `assets.md`.
+1. Push this folder to a GitHub repository.
+2. Go to https://app.netlify.com, "Add new site" → "Import an existing project".
+3. Netlify auto-detects Next.js (build command `npm run build`, no publish
+   directory override needed with the Next.js Runtime plugin).
 
-Don't:
+### Any Node host (self-managed)
 
-- Reimplement components from scratch when one exists in react/.
-- Hardcode hex values, font sizes, or radii anywhere in your output.
-- Load fonts from the Google Fonts CDN — use the bundled woff2 files.
-- Invent new color schemes — only use those defined in DESIGN.md.
+```bash
+npm install
+npm run build
+npm run start
+```
 
-## Verification
+This starts a production server on port 3000 (set `PORT` to change it).
 
-Before reporting complete, manually verify the following:
+## Project notes
 
-- [ ] Ensure the design system is exactly the same as in DESIGN.md
-- [ ] Ensure ALL schemes described in DESIGN.md are present in the design system.
-- [ ] Check the sections are the same as described in sitemap.md - and use the correct scheme.
-- [ ] Visually check the created homepage spacing and images look correct.
-- [ ] Visually check that homepage/full.png and the per-section screenshots in homepage/ match the created landing page
-
-If any check fails, fix and run through the list again.
+- Images live in `public/images` and are referenced as `/images/...`.
+- Page content is split by route under `app/` (`/`, `/our-menu`, `/gallery`,
+  `/reviews`), each pulling in section components from `components/`.
+- Styling uses Tailwind CSS v4 (config lives in `app/globals.css` via
+  `@theme`, not a separate `tailwind.config.js`).
